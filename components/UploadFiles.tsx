@@ -10,7 +10,8 @@ type Props = {
 export default function UploadFiles({ projectId }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
-  const [files, setFiles] = useState<any[]>([])
+// @ts-ignore
+const [files, setFiles] = useState([])
 
   const bucket = 'project_files'
 
