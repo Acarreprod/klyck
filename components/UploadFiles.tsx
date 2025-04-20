@@ -24,7 +24,7 @@ const [files, setFiles] = useState([])
     for (const file of files) {
       const filePath = `${projectId}/${Date.now()}-${file.name}`
 
-      const { data, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage...
         .from(bucket)
         .upload(filePath, file)
 
