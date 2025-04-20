@@ -1,12 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 
+type FileObject = {
+  name: string
+  id?: string
+}
+
 export default function UploadFiles({ projectId }: { projectId: number }) {
-  // ✅ on désactive le check TypeScript ici temporairement
-  // @ts-ignore
-  const [files, setFiles] = useState([])
+  const [files, setFiles] = useState<FileObject[]>([])
   const [uploading, setUploading] = useState(false)
 
   const fetchFiles = async () => {
@@ -15,13 +18,13 @@ export default function UploadFiles({ projectId }: { projectId: number }) {
       .list(`${projectId}`, { limit: 100 })
 
     if (!error && list) {
-      setFiles(list)
+      setFiles(list as FileObject[])
     }
   }
 
   useEffect(() => {
     fetchFiles()
-  }, [])
+  }, [projectId])
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files
@@ -57,7 +60,7 @@ export default function UploadFiles({ projectId }: { projectId: number }) {
       </label>
 
       <div className="grid grid-cols-3 gap-2">
-        {files.map((f: any) => (
+        {files.map((f) => (
           <div key={f.name} className="border p-2 rounded text-xs">
             <p>{f.name}</p>
           </div>
